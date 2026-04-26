@@ -2,7 +2,7 @@
 
 from fastapi import APIRouter
 from app.ai import parse_jd
-import requests
+from app.routers import candidates
 
 router = APIRouter(prefix="/jobs", tags=["Jobs"])
 
@@ -11,9 +11,8 @@ router = APIRouter(prefix="/jobs", tags=["Jobs"])
 def analyze_job(data: dict):
     result = parse_jd(data["description"])
 
-    requests.post(
-        "http://127.0.0.1:8000/candidates/set-job",
-        json={"title": result["title"], "skills": result["skills"]},
-    )
+    # Directly update current job in memory
+    candidates.current_job["title"] = result["title"]
+    candidates.current_job["skills"] = result["skills"]
 
     return {"analysis": result}
