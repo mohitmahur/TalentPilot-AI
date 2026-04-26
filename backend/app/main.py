@@ -1,5 +1,6 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from app.database import Base, engine
 from app.routers import auth, jobs, candidates
 
@@ -7,7 +8,6 @@ Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="AI Talent Agent")
 
-# CORS FIX
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -16,19 +16,30 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Routers
 app.include_router(auth.router)
 app.include_router(jobs.router)
 app.include_router(candidates.router)
 
 
-# Home Route
+# Root supports GET
 @app.get("/")
 def home():
     return {"message": "AI Talent Agent Running"}
 
 
-# Preflight OPTIONS Fix
+# Root supports POST too (stops 405)
+@app.post("/")
+def home_post():
+    return {"message": "AI Talent Agent Running"}
+
+
+# Root supports HEAD
+@app.head("/")
+def home_head():
+    return JSONResponse(content={})
+
+
+# Catch all OPTIONS preflight
 @app.options("/{full_path:path}")
 def options_handler(full_path: str):
-    return {"message": "OK"}
+    return {"ok": True}
