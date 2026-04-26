@@ -1,0 +1,9 @@
+backend/.env
+backend/talent.db
+frontend/node_modules/
+__pycache__/
+*.pyc
+.env
+*.db
+dist/
+.vscode/
