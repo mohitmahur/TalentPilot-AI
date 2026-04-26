@@ -17,7 +17,7 @@ export default function App() {
         try {
             const res = await axios.post(
                 // "http://127.0.0.1:8000/jobs/analyze",
-                "https://talentpilot-backend.onrender.com/",
+                "https://talentpilot-backend.onrender.com/jobs/analyze",
                 { description: jd }
             );
 
@@ -25,7 +25,7 @@ export default function App() {
 
             const rank = await axios.get(
                 // "http://127.0.0.1:8000/candidates/ranked"
-                "https://talentpilot-backend.onrender.com/",
+                "https://talentpilot-backend.onrender.com/candidates/ranked",
             );
 
             setCandidates(rank.data);
