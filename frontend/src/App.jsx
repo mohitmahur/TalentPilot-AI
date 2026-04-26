@@ -16,14 +16,16 @@ export default function App() {
 
         try {
             const res = await axios.post(
-                "http://127.0.0.1:8000/jobs/analyze",
+                // "http://127.0.0.1:8000/jobs/analyze",
+                "https://talentpilot-backend.onrender.com/",
                 { description: jd }
             );
 
             setAnalysis(res.data.analysis);
 
             const rank = await axios.get(
-                "http://127.0.0.1:8000/candidates/ranked"
+                // "http://127.0.0.1:8000/candidates/ranked"
+                "https://talentpilot-backend.onrender.com/",
             );
 
             setCandidates(rank.data);
